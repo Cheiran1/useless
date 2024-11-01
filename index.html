@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emoji to Sentence Converter</title>
+    <style>
+      /* Background Styling */
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: #333;
+      }
+
+      /* Main Container Styling */
+      .container {
+        text-align: center;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        width: 350px;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      /* Title Styling */
+      h1 {
+        font-size: 24px;
+        color: #ff6b6b;
+        margin-bottom: 20px;
+      }
+
+      /* Textarea Styling */
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 2px solid #ff6b6b;
+        outline: none;
+        resize: none;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+      textarea:focus {
+        border-color: #ff9a9e;
+      }
+
+      /* Button Styling */
+      button {
+        background-color: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      button:hover {
+        background-color: #ff9a9e;
+        transform: scale(1.05);
+      }
+
+      /* Result Text Styling */
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+        line-height: 1.5;
+      }
+
+      /* Emoji Picker Styling */
+      .emoji-picker {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+        color: #333;
+        font-size: 24px;
+      }
+
+      /* Emoji Button Styling */
+      .emoji-button {
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .emoji-button:hover {
+        transform: scale(1.2);
+      }
+
+      /* Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Emoji to Sentence Converter</h1>
+      <textarea id="emojiInput" placeholder="Enter emojis here..."></textarea>
+      <button onclick="convertEmojis()">Convert</button>
+      <div id="result" class="result"></div>
+
+      <!-- Emoji Picker Section -->
+      <div class="emoji-picker">
+        <span class="emoji-button" onclick="addEmoji('😀')">😀</span>
+        <span class="emoji-button" onclick="addEmoji('😢')">😢</span>
+        <span class="emoji-button" onclick="addEmoji('❤️')">❤️</span>
+        <span class="emoji-button" onclick="addEmoji('👍')">👍</span>
+        <span class="emoji-button" onclick="addEmoji('🎉')">🎉</span>
+        <span class="emoji-button" onclick="addEmoji('💡')">💡</span>
+        <span class="emoji-button" onclick="addEmoji('🔥')">🔥</span>
+        <span class="emoji-button" onclick="addEmoji('😎')">😎</span>
+        <span class="emoji-button" onclick="addEmoji('🌟')">🌟</span>
+        <span class="emoji-button" onclick="addEmoji('🥳')">🥳</span>
+        <span class="emoji-button" onclick="addEmoji('😂')">😂</span>
+        <span class="emoji-button" onclick="addEmoji('😴')">😴</span>
+        <span class="emoji-button" onclick="addEmoji('🚀')">🚀</span>
+        <span class="emoji-button" onclick="addEmoji('🍕')">🍕</span>
+        <span class="emoji-button" onclick="addEmoji('🐶')">🐶</span>
+        <span class="emoji-button" onclick="addEmoji('💻')">💻</span>
+        <span class="emoji-button" onclick="addEmoji('😇')">😇</span>
+        <span class="emoji-button" onclick="addEmoji('🤔')">🤔</span>
+        <span class="emoji-button" onclick="addEmoji('🥺')">🥺</span>
+        <span class="emoji-button" onclick="addEmoji('🤩')">🤩</span>
+        <span class="emoji-button" onclick="addEmoji('🤯')">🤯</span>
+        <span class="emoji-button" onclick="addEmoji('😷')">😷</span>
+        <span class="emoji-button" onclick="addEmoji('🍔')">🍔</span>
+        <span class="emoji-button" onclick="addEmoji('🎂')">🎂</span>
+      </div>
+    </div>
+
+    <script>
+      const emojiDictionary = {
+        "😀": "Happy face",
+        "😢": "Sad face",
+        "❤️": "love", // Ensure this line matches the exact heart emoji and replacement text
+        "👍": "Thumbs up",
+        "🎉": "Celebration",
+        "💡": "Great idea",
+        "🔥": "Something amazing",
+        "😎": "Cool",
+        "🌟": "Star",
+        "🥳": "Party time",
+        "😂": "Laughter",
+        "😴": "Sleepy",
+        "🚀": "Rocket launch",
+        "🍕": "Pizza time",
+        "🐶": "Cute dog",
+        "💻": "Working on something",
+        "😇": "Innocent",
+        "🤔": "Thinking",
+        "🥺": "Pleading face",
+        "🤩": "Starstruck",
+        "🤯": "Mind blown",
+        "😷": "Wearing mask",
+        "🍔": "Burger time",
+        "🎂": "Birthday cake",
+      };
+
+      // Function to convert emojis to sentences
+      function convertEmojis() {
+        const input = document.getElementById("emojiInput").value;
+        const emojiRegex =
+          /([\u{1F600}-\u{1F64F}]|❤️|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F700}-\u{1F77F}]|[\u{1F780}-\u{1F7FF}]|[\u{1F800}-\u{1F8FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1FA00}-\u{1FAFF}]|[\u{1FB00}-\u{1FBFF}])/gu;
+
+        // Replace each emoji with the corresponding sentence
+        let result = input.replace(
+          emojiRegex,
+          (match) => emojiDictionary[match] || match
+        );
+
+        document.getElementById("result").textContent = result;
+      }
+
+      // Function to add emoji to textarea
+      function addEmoji(emoji) {
+        const inputField = document.getElementById("emojiInput");
+        inputField.value += emoji;
+        inputField.focus(); // Focus back on the textarea
+      }
+    </script>
+  </body>
+</html>
